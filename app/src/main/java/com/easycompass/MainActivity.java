@@ -1,10 +1,12 @@
 package com.easycompass;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,17 +16,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener{
+import java.util.concurrent.ExecutionException;
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
     Sensor magnetometer;
     Sensor accelerometer;
 
-    TextView tv_mag;
-    TextView tv_acc;
 
     boolean magSet = false;
     boolean accSet = false;
@@ -32,23 +35,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float[] geomagneticVector;      //with respect to device's coordinates, used by getRotationMatrix(...)
     float[] gravityVector;          //with respect to device's coordinates, used by getRotationmatrix(...)
     float[] rotationMatrix;         //matrix used to map one coordinate system (the Earth's) to another (the device's), used by getRotationMatrix(...) and getOrientation(...)
-    float[] inclinationMatrix;      //matrix used because it is necessary in getRotationMatrix(...)
+    float[] inclinationMatrix;      //matrix used because it is necessary in getRotationMatrix(...), not used
 
     float[] orientations;           //stores device's azimuth, pitch, and roll with respect to Earth's coordinate system, used by getOrientation(...)
 
-    TextView tv_rotation;
-    TextView tv_orientation;
 
-
-
-    TextView tv_degree;
-
+    //    TextView tv_degree;
+    TextView tv_adjustedDegree;
     ImageView needle;
-
-    public MainActivity()
-    {
-
-    }
 
 
     @Override
@@ -58,14 +52,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         geomagneticVector = new float[3];
         gravityVector = new float[3];
@@ -73,20 +59,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         inclinationMatrix = new float[9];
         orientations = new float[3];
 
-        sensorManager = (SensorManager)this.getSystemService(SENSOR_SERVICE);
-
-
+        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        tv_mag = (TextView) findViewById(R.id.tv_mag);
-        tv_acc = (TextView) findViewById(R.id.tv_acc);
 
-        tv_rotation = (TextView) findViewById(R.id.tv_rotation);
-        tv_orientation = (TextView) findViewById(R.id.tv_orientation);
-
-        tv_degree = (TextView) findViewById(R.id.tv_degree);
+//        tv_degree = (TextView) findViewById(R.id.tv_degree);
         needle = (ImageView) findViewById(R.id.imageView);
+        tv_adjustedDegree = (TextView) findViewById(R.id.tv_adjustedDegree);
 
         Log.d("Inside", "OnCreate");
     }
@@ -105,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
+
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-    Log.d(getClass().getSimpleName(), "onResume");
+
+        Log.d(getClass().getSimpleName(), "onResume");
     }
 
     @Override
@@ -126,6 +108,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Log.d(getClass().getSimpleName(), "OnStopped");
     }
 
+    /* Since the Email Feedback menu item starts an intent that calls another app to compose an email, its ability to work relies on the existence of other apps.
+    As a result, if the device, doesn't have an app that can compose emails, then it makes for a better user experience to remove the Email Feedback menu item.
+    If the device does have an app that can compose emails, do display the Email Feedback menu item.
+     */
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            menu.removeItem(R.id.emailMenuItem);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -140,74 +139,131 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id) {
 
-        return super.onOptionsItemSelected(item);
+            //open About activity
+            case R.id.aboutMenuItem:
+                Intent aboutIntent = new Intent(this, About.class);
+                startActivity(aboutIntent);
+                return true;
+
+
+            /*  The emailMenuItem would only be shown if the device has another app that can send email.
+                If this is called, it is guaranteed that the user can compose emails
+                However, we still include a check anyways
+            */
+            case R.id.emailMenuItem:
+
+                //open another app to send email:
+                String[] addresses = getResources().getStringArray(R.array.emailAddresses);
+
+                Intent webIntent = new Intent(Intent.ACTION_SENDTO);
+                webIntent.setData(Uri.parse("mailto:"));
+                webIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+                webIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.feedbackSubjectLine));
+
+                //technically, we don't need to check if the intent can start but double checking
+                if (webIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(webIntent);
+                } else {
+                    throw new RuntimeException("In the if/else for resolving intent. This should not have occured");
+                }
+
+                return true;
+            default:
+                throw new RuntimeException("Inside default case of switch statement in onOptionsItemSelected. The id is not handled.");
+        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor == magnetometer) {
             geomagneticVector = event.values;
-
-            float s0 = event.values[0];
-            float s1 = event.values[1];
-            float s2 = event.values[2];
-
-            tv_mag.setText("0: " + Float.toString(s0) + ", 1: " + Float.toString(s1) + ", 2: " + Float.toString(s2));
-
             magSet = true;
         }
 
         if (event.sensor == accelerometer) {
             gravityVector = event.values;
-
-            float s0 = event.values[0];
-            float s1 = event.values[1];
-            float s2 = event.values[2];
-
-            tv_acc.setText("0: " + Float.toString(s0) + ", 1: " + Float.toString(s1) + ", 2: " + Float.toString(s2));
-
             accSet = true;
         }
 
         if (magSet && accSet) {
+
+            //changes rotationMatrix so that it would correctly map device's coordinates with Earth's
             sensorManager.getRotationMatrix(rotationMatrix, inclinationMatrix, gravityVector, geomagneticVector);
-
-            String r0 = Float.toString(rotationMatrix[0]);
-            String r1 = Float.toString(rotationMatrix[1]);
-            String r2 = Float.toString(rotationMatrix[2]);
-            String r3 = Float.toString(rotationMatrix[3]);
-            String r4 = Float.toString(rotationMatrix[4]);
-            String r5 = Float.toString(rotationMatrix[5]);
-            String r6 = Float.toString(rotationMatrix[6]);
-            String r7 = Float.toString(rotationMatrix[7]);
-            String r8 = Float.toString(rotationMatrix[8]);
-
-            tv_rotation.setText("0: " + r0 + " ,1: " + r1 + " ,2: " + r2 + " ,3: " + r3 + " ,4: " + r4 + " ,5: " + r5 + " ,6: " + r6 + " ,7: " + r7 + " ,8: " + r8);
 
             sensorManager.getOrientation(rotationMatrix, orientations);
 
-            String o0 = Float.toString(orientations[0]);
-            String o1 = Float.toString(orientations[1]);
-            String o2 = Float.toString(orientations[2]);
 
-            tv_orientation.setText("0: " + o0 + " ,1: " + o1 + " ,2: " + o2);
+            //change orientation[0], the device's pitch to be in degrees. Degree ranges from -180 to 180.
+            double rawDegree = Math.toDegrees(orientations[0]);
 
-            //change the radian of o0 to degrees. The radian ranges from -pi to pi.
-            double degree = Math.toDegrees(orientations[0]);
+//            tv_degree.setText(Double.toString(degree));
 
-            tv_degree.setText(Double.toString(degree));
-
+            //rotate the image representing the needle to the appropriate degree
             Matrix matrix = new Matrix();
             needle.setScaleType(ImageView.ScaleType.MATRIX);   //required
-            matrix.postRotate((float)degree, needle.getDrawable().getBounds().width()/2, needle.getDrawable().getBounds().height()/2);
+            matrix.postRotate((float) rawDegree, needle.getDrawable().getBounds().width() / 2, needle.getDrawable().getBounds().height() / 2);
             needle.setImageMatrix(matrix);
+
+            /* degree
+               0
+           -90      90
+            -179  179
+              If the degree is negative, add 360 to it to make it the appropriate positive degree
+             */
+
+            int degree = (int) rawDegree;
+
+            if (degree < 0) {
+                degree += 360;
+            }
+
+            //show the degree
+            tv_adjustedDegree.setText(getPoint(degree) + "," + String.valueOf(degree) + "°");
+
         }
     }
+
+    //gets N, NE, E, etc. from the degree
+    private String getPoint(int adjustedDegree) {
+        // N (315-22.5), NE (22.5-67.5), E (67.5-112.5), SE (112.5-157.5), S(157.5-202.5), SW(202.5-247.5), W(247.5-292.5), NW(292.5-337.5)
+
+        if (isBetween(adjustedDegree, 22.5, 67.5)) {
+            return "NE";
+        }
+        else if (isBetween(adjustedDegree, 67.5, 112.5)) {
+            return "E";
+        }
+        else if (isBetween(adjustedDegree, 112.5, 157.5)) {
+            return "SE";
+        }
+        else if (isBetween(adjustedDegree, 157.5, 202.5)) {
+            return "S";
+        }
+        else if (isBetween(adjustedDegree, 202.5, 247.5)) {
+            return "SW";
+        }
+        else if (isBetween(adjustedDegree, 247.5, 292.5)) {
+            return "W";
+        }
+        else if (isBetween(adjustedDegree, 292.5, 337.5)) {
+            return "NW";
+        }
+        else {
+            return "N";
+        }
+    }
+
+    //checks if smaller < intToCheck <= larger
+    private boolean isBetween(int intToCheck, double smaller, double larger) {
+        if ((smaller < intToCheck) && (intToCheck <= larger)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

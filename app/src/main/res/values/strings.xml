@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Easy Compass</string>
-    <string name="action_settings">Settings</string>
+    <string name="aboutMenuItem">About</string>
+    <string name="emailMenuItem">Email Feedback</string>
+
+    <!-- Email addresses to send email to when Email Feedback item is clicked. Used in MainActivity -->
+    <string-array name="emailAddresses">
+        <item>nanobreeze@outlook.com</item>
+    </string-array>
+    <string name="feedbackSubjectLine">Easy Compass Feedback</string>
+    <string name="title_activity_about">About</string>
 </resources>

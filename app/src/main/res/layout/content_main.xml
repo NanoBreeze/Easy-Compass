@@ -12,53 +12,33 @@
     tools:context="com.easycompass.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
     <TextView
-        android:id="@+id/tv_mag"
+        android:id="@+id/tv_adjustedDegree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="New Text" />
-
-    <TextView
-        android:id="@+id/tv_acc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_mag"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp"
-        android:text="New Text" />
-
-    <TextView
-        android:id="@+id/tv_rotation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_acc"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:text="New Text" />
-
-    <TextView
-        android:id="@+id/tv_orientation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_rotation"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:text="New Text" />
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:text="tv_adjustedDegree"
+        android:textSize="30sp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/rectangle" />
+        android:layout_below="@+id/tv_adjustedDegree"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/needle" />
 
-    <TextView
-        android:id="@+id/tv_degree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="tv_degree" />
+    <!--<TextView-->
+    <!--android:id="@+id/tv_degree"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:text="tv_degree" />-->
+
+
 </RelativeLayout>
