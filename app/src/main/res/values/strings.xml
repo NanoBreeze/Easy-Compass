@@ -1,12 +1,24 @@
 <resources>
     <string name="app_name">Easy Compass</string>
     <string name="aboutMenuItem">About</string>
-    <string name="emailMenuItem">Email Feedback</string>
+    <string name="emailMenuItem">Send Feedback</string>
 
     <!-- Email addresses to send email to when Email Feedback item is clicked. Used in MainActivity -->
     <string-array name="emailAddresses">
         <item>nanobreeze@outlook.com</item>
     </string-array>
+
+    <!-- N, E, S, W, etc. -->
+    <string name="north">N</string>
+    <string name="northEast">NE</string>
+    <string name="east">E</string>
+    <string name="southEast">SE</string>
+    <string name="south">S</string>
+    <string name="southWest">SW</string>
+    <string name="west">W</string>
+    <string name="northWest">NW</string>
+
     <string name="feedbackSubjectLine">Easy Compass Feedback</string>
-    <string name="title_activity_about">About</string>
+
+    <string name="aboutText">Medium Text sis a multilingual compass intended for easy use. lsdjfoi sjfiosd asdo;ifjas; oifjsd;o ijasf;oi jsdf</string>
 </resources>

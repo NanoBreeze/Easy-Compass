@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float[] orientations;           //stores device's azimuth, pitch, and roll with respect to Earth's coordinate system, used by getOrientation(...)
 
 
-    //    TextView tv_degree;
     TextView tv_adjustedDegree;
     ImageView needle;
 
@@ -64,11 +63,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 
-//        tv_degree = (TextView) findViewById(R.id.tv_degree);
         needle = (ImageView) findViewById(R.id.imageView);
         tv_adjustedDegree = (TextView) findViewById(R.id.tv_adjustedDegree);
 
-        Log.d("Inside", "OnCreate");
     }
 
     @Override
@@ -89,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        Log.d(getClass().getSimpleName(), "onResume");
     }
 
     @Override
@@ -99,13 +95,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(this, magnetometer);
         sensorManager.unregisterListener(this, accelerometer);
 
-        Log.d(getClass().getSimpleName(), "OnPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(getClass().getSimpleName(), "OnStopped");
     }
 
     /* Since the Email Feedback menu item starts an intent that calls another app to compose an email, its ability to work relies on the existence of other apps.
@@ -230,28 +224,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // N (315-22.5), NE (22.5-67.5), E (67.5-112.5), SE (112.5-157.5), S(157.5-202.5), SW(202.5-247.5), W(247.5-292.5), NW(292.5-337.5)
 
         if (isBetween(adjustedDegree, 22.5, 67.5)) {
-            return "NE";
+            return getResources().getString(R.string.northEast);
         }
         else if (isBetween(adjustedDegree, 67.5, 112.5)) {
-            return "E";
+            return getResources().getString(R.string.east);
         }
         else if (isBetween(adjustedDegree, 112.5, 157.5)) {
-            return "SE";
+            return getResources().getString(R.string.southEast);
         }
         else if (isBetween(adjustedDegree, 157.5, 202.5)) {
-            return "S";
+            return getResources().getString(R.string.south);
         }
         else if (isBetween(adjustedDegree, 202.5, 247.5)) {
-            return "SW";
+            return getResources().getString(R.string.southWest);
         }
         else if (isBetween(adjustedDegree, 247.5, 292.5)) {
-            return "W";
+            return getResources().getString(R.string.west);
         }
         else if (isBetween(adjustedDegree, 292.5, 337.5)) {
-            return "NW";
+            return getResources().getString(R.string.northWest);
         }
         else {
-            return "N";
+            return getResources().getString(R.string.north);
         }
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">シンプルなコンパス</string>
+    <string name="aboutMenuItem">ついて</string>
+    <string name="emailMenuItem">反応</string>
+
+    <!-- N, E, S, W, etc. -->
+    <string name="north">北</string>
+    <string name="northEast">北東</string>
+    <string name="east">東</string>
+    <string name="southEast">南東</string>
+    <string name="south">南</string>
+    <string name="southWest">南西</string>
+    <string name="west">西</string>
+    <string name="northWest">北西</string>
+
+
+    <string name="feedbackSubjectLine">Feedback for シンプルなコンパス</string>
+
+    <string name="aboutText">About text In Japanese</string>
+</resources>

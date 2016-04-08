@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">간단한 나침반</string>
+    <string name="aboutMenuItem">정보</string>
+    <string name="emailMenuItem">의견 보내기</string>
+
+    <!-- N, E, S, W, etc. -->
+    <string name="north">북쪽</string>
+    <string name="northEast">북동</string>
+    <string name="east">동쪽</string>
+    <string name="southEast">남동</string>
+    <string name="south">남쪽</string>
+    <string name="southWest">남서</string>
+    <string name="west">서쪽</string>
+    <string name="northWest">북서</string>
+
+
+    <string name="feedbackSubjectLine">Feedback for 간단한 나침반</string>
+
+    <string name="aboutText">About text In Korean</string>
+</resources>

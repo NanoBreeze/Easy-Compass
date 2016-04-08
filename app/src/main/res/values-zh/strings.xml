@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">简单的指南针</string>
+    <string name="aboutMenuItem">关于</string>
+    <string name="emailMenuItem">发送反馈</string>
+
+    <!-- N, E, S, W, etc. -->
+    <string name="north">北</string>
+    <string name="northEast">东北</string>
+    <string name="east">东</string>
+    <string name="southEast">东南</string>
+    <string name="south">南</string>
+    <string name="southWest">西南</string>
+    <string name="west">西</string>
+    <string name="northWest">西北</string>
+
+    <string name="feedbackSubjectLine">Feedback for 简单的指南针</string>
+
+    <string name="aboutText">About text IN CHINESE</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple Brújula</string>
+    <string name="aboutMenuItem">Acerca de</string>
+    <string name="emailMenuItem">Enviar sugerencias</string>
+
+
+    <!-- N, E, S, W, etc. -->
+    <string name="north">N</string>
+    <string name="northEast">NE</string>
+    <string name="east">E</string>
+    <string name="southEast">SE</string>
+    <string name="south">S</string>
+    <string name="southWest">SO</string>
+    <string name="west">O</string>
+    <string name="northWest">NO</string>
+
+
+
+    <string name="feedbackSubjectLine">Feedback for Simple Brújula</string>
+
+    <string name="aboutText">About text In SPANISH</string>
+</resources>

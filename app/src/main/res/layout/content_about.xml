@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Medium Text sis a multilingual compass intended for easy use. lsdjfoi sjfiosd asdo;ifjas; oifjsd;o ijasf;oi jsdf "
+        android:text="@string/aboutText"
         android:textAppearance="?android:attr/textAppearanceMedium"
       />
 
