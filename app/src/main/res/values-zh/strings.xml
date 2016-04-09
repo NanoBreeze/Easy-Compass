@@ -16,5 +16,12 @@
 
     <string name="feedbackSubjectLine">Feedback for 简单的指南针</string>
 
-    <string name="aboutText">About text IN CHINESE</string>
+    <string name="aboutText">
+正如其名称所暗示的，简单的指南针被设计成尽可能容易使用。罗盘（↑）内的箭头指向罗盘取向（例如，NE）。
+\n\n
+简单的指南针还支持英语，法语，韩语，日语和西班牙语。
+    </string>
+
+    <string name="fromNorth">北</string>
+    <string name="preciseOrientation">精确定位:</string>
 </resources>

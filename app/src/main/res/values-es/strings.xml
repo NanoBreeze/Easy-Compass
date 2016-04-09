@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple Brújula</string>
+    <string name="app_name">Brújula Sencilla</string>
     <string name="aboutMenuItem">Acerca de</string>
     <string name="emailMenuItem">Enviar sugerencias</string>
 
@@ -17,7 +17,13 @@
 
 
 
-    <string name="feedbackSubjectLine">Feedback for Simple Brújula</string>
+    <string name="feedbackSubjectLine">Feedback for Brújula Sencilla</string>
 
-    <string name="aboutText">About text In SPANISH</string>
+    <string name="aboutText">
+Como su nombre lo indica, Brújula sencilla está diseñado para ser tan fácil de usar como sea posible. La flecha en el interior de la brújula (↑) apunta a la orientación de la brújula (por ejemplo, NE).
+\n\n
+Brújula sencilla también es compatible con el chino, Inglés, francés, japonés y coreano.</string>
+
+    <string name="fromNorth">del Norte</string>
+    <string name="preciseOrientation">Orientación\nPrecisa:</string>
 </resources>

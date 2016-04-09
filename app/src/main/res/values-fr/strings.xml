@@ -16,5 +16,12 @@
 
     <string name="feedbackSubjectLine">Commentaires pour Simple Boussole</string>
 
-    <string name="aboutText">About text En Francais</string>
+    <string name="aboutText">
+Comme son nom l\'indique, Simple Boussole est conçu pour être aussi facile à utiliser que possible. La flèche à l\'intérieur de la boussole (↑) pointe vers l\'orientation de la boussole (par exemple, NE).
+\n\n
+Simple Boussole soutient également chinois, anglais, japonais, coréen et espagnol.
+    </string>
+
+    <string name="fromNorth">du Nord</string>
+    <string name="preciseOrientation">L\'orientation\nprécise:</string>
 </resources>

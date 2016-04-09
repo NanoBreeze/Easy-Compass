@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Sensor accelerometer;
 
 
-    boolean magSet = false;
-    boolean accSet = false;
+    boolean magSet;
+    boolean accSet;
 
     float[] geomagneticVector;      //with respect to device's coordinates, used by getRotationMatrix(...)
     float[] gravityVector;          //with respect to device's coordinates, used by getRotationmatrix(...)
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     TextView tv_adjustedDegree;
+    TextView tv_adjustedDegreeSummary;
     ImageView needle;
 
 
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        magSet = false;
+        accSet = false;
 
         geomagneticVector = new float[3];
         gravityVector = new float[3];
@@ -62,30 +65,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-
         needle = (ImageView) findViewById(R.id.imageView);
         tv_adjustedDegree = (TextView) findViewById(R.id.tv_adjustedDegree);
+        tv_adjustedDegreeSummary = (TextView) findViewById(R.id.tv_adjustedDegreeSummary);
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(getClass().getSimpleName(), "OnStart");
     }
 
     /*
         When we press the homescreen or Square button, onPause and onStop happens. Therefore, unregister sensors when onPause() is called
         When we return, from home screen, onStart and onResume happens. Therefore, register sensors when onResume() is called
      */
-
     @Override
     protected void onResume() {
         super.onResume();
 
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-
     }
 
     @Override
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sensorManager.unregisterListener(this, magnetometer);
         sensorManager.unregisterListener(this, accelerometer);
-
     }
 
     @Override
@@ -192,13 +191,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //change orientation[0], the device's pitch to be in degrees. Degree ranges from -180 to 180.
             double rawDegree = Math.toDegrees(orientations[0]);
 
-//            tv_degree.setText(Double.toString(degree));
-
-            //rotate the image representing the needle to the appropriate degree
-            Matrix matrix = new Matrix();
-            needle.setScaleType(ImageView.ScaleType.MATRIX);   //required
-            matrix.postRotate((float) rawDegree, needle.getDrawable().getBounds().width() / 2, needle.getDrawable().getBounds().height() / 2);
-            needle.setImageMatrix(matrix);
+            //rotate the image representing the needle to the appropriate degree. We multiply by -1 because the compass rotates in opposite orientation without it
+            needle.setRotation(-1 * (float)rawDegree);
 
             /* degree
                0
@@ -214,7 +208,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
 
             //show the degree
-            tv_adjustedDegree.setText(getPoint(degree) + "," + String.valueOf(degree) + "°");
+            tv_adjustedDegree.setText(getPoint(degree));
+            tv_adjustedDegreeSummary.setText(String.valueOf(degree) + "°");
 
         }
     }

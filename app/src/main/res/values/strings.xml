@@ -20,5 +20,11 @@
 
     <string name="feedbackSubjectLine">Easy Compass Feedback</string>
 
-    <string name="aboutText">Medium Text sis a multilingual compass intended for easy use. lsdjfoi sjfiosd asdo;ifjas; oifjsd;o ijasf;oi jsdf</string>
+    <string name="aboutText">
+As its name implies, Easy Compass is designed to be as easy to use as possible. The arrow inside the compass (↑) points to the compass\' orientation (eg, NE).
+\n\n
+Easy Compass also supports Chinese, French, Japanese, Korean, and Spanish.</string>
+
+    <string name="fromNorth">from North</string>
+    <string name="preciseOrientation">Precise\nOrientation:</string>
 </resources>

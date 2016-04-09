@@ -17,5 +17,12 @@
 
     <string name="feedbackSubjectLine">Feedback for 간단한 나침반</string>
 
-    <string name="aboutText">About text In Korean</string>
+    <string name="aboutText">
+이름에서 알 수 있듯이, 간단한 나침반은 가능한 한 사용하기 쉬운 수 있도록 설계되었습니다. 나침반 (↑) 내부의 화살표는 나침반 방향 (예를 들면, NE)를 가리 킵니다.
+\n\n
+간단한 나침반도, 영어, 프랑스어, 일본어, 스페인어를 중국어 지원합니다.
+    </string>
+
+    <string name="fromNorth">북한</string>
+    <string name="preciseOrientation">정확한 방향:</string>
 </resources>

@@ -17,5 +17,12 @@
 
     <string name="feedbackSubjectLine">Feedback for シンプルなコンパス</string>
 
-    <string name="aboutText">About text In Japanese</string>
+    <string name="aboutText">
+その名前が示すように、シンプルなコンパスは、可能な限り使用するように簡単になるように設計されています。コンパス（↑）内部の矢印はコンパス方位（例えば、NE）を指します。
+\n\n
+シンプルなコンパスはまた中国語、英語、フランス語、韓国語、スペイン語をサポートしています。
+    </string>
+
+    <string name="fromNorth">北から</string>
+    <string name="preciseOrientation">正確な方向:</string>
 </resources>
